@@ -20,8 +20,7 @@ let generate dirname =
 
     (* Generate the C header file that exports OCaml functions. *)
     Format.fprintf (Format.formatter_of_out_channel h_fd)
-      "@[%a@];@\n@\n@[%a@]@."
-      (fun t -> Ctypes.format_typ t) Bindings.handlers
+      "@[%a@]@."
       (Cstubs_inverted.write_c_header ~prefix) stubs;
   end;
   close_out h_fd;

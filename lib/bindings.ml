@@ -41,6 +41,9 @@ let parse events filename =
 
 module Stubs(I : Cstubs_inverted.INTERNAL) =
 struct
+  (* Expose the type 'struct handlers' to C. *)
+  let () = I.structure handlers
+
   (* We expose just a single function to C.  The first argument is a (pointer
      to a) struct of callbacks, and the second argument is a string
      representing a filename to parse. *)

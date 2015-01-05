@@ -19,9 +19,9 @@ let generate dirname =
       (Cstubs_inverted.write_c ~prefix) stubs;
 
     (* Generate the C header file that exports OCaml functions. *)
-    Format.fprintf (Format.formatter_of_out_channel h_fd)
-      "@[%a@]@."
-      (Cstubs_inverted.write_c_header ~prefix) stubs;
+    Cstubs_inverted.write_c_header 
+      (Format.formatter_of_out_channel h_fd) ~prefix stubs;
+
   end;
   close_out h_fd;
   close_out c_fd;

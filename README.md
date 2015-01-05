@@ -10,12 +10,13 @@ There are two main files involved in building the library:
 
 * [`generate.ml`](stub_generator/generate.ml) is an OCaml program that generates C source and header files from the definitions in the `Bindings` module, and an OCaml module that can be used to link the generated code with the code in `Bindings`.  (See [`apply_bindings.ml`](lib/apply_bindings.ml) for the actual linking.)
 
-The prerequisites for building the library are [ctypes 0.3][ctypes-0.3], [Xmlm][xmlm], [ocamlfind][findlib] and an OCaml compiler whose runtime has been compiled to position-independent code.  [OPAM][opam] users can install the prerequisites by issuing the following commands:
+The prerequisites for building the library are [the ctypes development version][ctypes-master], [Xmlm][xmlm], [ocamlfind][findlib] and an OCaml compiler whose runtime has been compiled to position-independent code.  [OPAM][opam] users can install the prerequisites by issuing the following commands:
 
 ```
 opam update
-opam switch install 4.01.0+PIC
-opam install ctypes xmlm ocamlfind
+opam switch install 4.02.0+PIC
+opam pin add ctypes git@github.com:ocamllabs/ocaml-ctypes.git
+opam install xmlm
 ```
 
 When you type `make` the following things will happen:
@@ -29,8 +30,8 @@ Typing `make test` causes the following additional steps to take place:
 4. A test program, written in C, will be built by compiling [test.c](test/test.c) and linking it with the shared library.
 5. The test program will be run on the sample XML file [ocaml.svg](test/ocaml.svg)
 
-[ctypes]: https://github.com/ocamllabs/ocaml-ctypes
+[ctypes-master]: https://github.com/ocamllabs/ocaml-ctypes
 [xmlm]: http://erratique.ch/software/xmlm
-[ctypes-0.3]: http://opam.ocaml.org/packages/ctypes/ctypes.0.3.0/
+[ctypes]: https://github.com/ocamllabs/ocaml-ctypes
 [findlib]: http://projects.camlcity.org/projects/findlib.html
 [opam]: http://opam.ocaml.org/

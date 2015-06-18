@@ -34,7 +34,7 @@ $(GENERATED): $(GENERATOR)
 	$(BUILDDIR)/generate $(BUILDDIR)/generated
 
 $(BUILDDIR)/%.o: %.c
-	gcc -c -o $@ -fPIC -I $(OCAMLDIR)/.. $<
+	gcc -c -o $@ -fPIC -I $(OCAMLDIR)/../ctypes $<
 
 $(BUILDDIR)/%.cmx: %.ml
 	ocamlfind opt -c -o $@ -I $(BUILDDIR)/generated -I $(BUILDDIR)/lib -package $(PACKAGES) $<

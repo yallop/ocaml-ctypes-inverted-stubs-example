@@ -26,7 +26,7 @@ all: sharedlib
 sharedlib: $(BUILDDIR)/libxmlm.so
 
 $(BUILDDIR)/libxmlm.so: $(LIBFILES)
-	ocamlfind opt -o $@ -linkpkg -output-obj -package $(PACKAGES) $^
+	ocamlfind opt -o $@ -linkpkg -output-obj -runtime-variant _pic -verbose -package $(PACKAGES) $^
 
 stubs: $(GENERATED)
 

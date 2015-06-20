@@ -10,13 +10,13 @@ There are two main files involved in building the library:
 
 * [`generate.ml`](stub_generator/generate.ml) is an OCaml program that generates C source and header files from the definitions in the `Bindings` module, and an OCaml module that can be used to link the generated code with the code in `Bindings`.  (See [`apply_bindings.ml`](lib/apply_bindings.ml) for the actual linking.)
 
-The prerequisites for building the library are [ocaml-ctypes][ctypes] (0.4.0 or later), [Xmlm][xmlm], [ocamlfind][findlib] and an OCaml compiler whose runtime has been compiled to position-independent code.  [OPAM][opam] users can install the prerequisites by issuing the following commands:
+The prerequisites for building the library are OCaml 4.02.2, [ocaml-ctypes][ctypes] (0.4.0 or later), [Xmlm][xmlm] and [ocamlfind][findlib].  [OPAM][opam] users can install the prerequisites by issuing the following commands:
 
 ```
 opam update
-opam switch install 4.02.0+PIC
-opam install ctypes-foreign ctypes
-opam install xmlm
+opam switch 4.02.2
+eval `opam config env`
+opam install ctypes-foreign ctypes xmlm
 ```
 
 When you type `make` the following things will happen:

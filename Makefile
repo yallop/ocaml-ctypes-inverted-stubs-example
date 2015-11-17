@@ -8,33 +8,47 @@ PACKAGES=xmlm,ctypes.stubs,ctypes.foreign
 GENERATOR_FILES=$(BUILDDIR)/lib/bindings.cmx		\
                 $(BUILDDIR)/stub_generator/generate.cmx
 
+EXTOBJ=$(shell ocamlc -config | grep ext_obj | cut -d' ' -f2)
+EXTDLL=$(shell ocamlc -config | grep ext_dll | cut -d' ' -f2)
+CC=$(shell ocamlopt -config | grep native_c_compiler | cut -d' ' -f 2-)
+
+ifeq ($(shell ocamlc -config | grep os_type | cut -d' ' -f2), Win32)
+EXE=.exe
+NATIVEXE=.exe
+LD_LIBRARY_PATH=PATH
+else
+NATIVEXE=.native
+RUNTIMEVARIANT=-runtime-variant _pic
+LD_LIBRARY_PATH=LD_LIBRARY_PATH
+endif
+
 # The files from which we'll build a shared library.
 LIBFILES=$(BUILDDIR)/lib/bindings.cmx			\
          $(BUILDDIR)/generated/xmlm_bindings.cmx	\
          $(BUILDDIR)/lib/apply_bindings.cmx		\
-         $(BUILDDIR)/generated/xmlm.o
+         $(BUILDDIR)/generated/xmlm$(EXTOBJ)
 
 # The files that we'll generate
 GENERATED=$(BUILDDIR)/generated/xmlm.h \
           $(BUILDDIR)/generated/xmlm.c \
           $(BUILDDIR)/generated/xmlm_bindings.ml
 
-GENERATOR=$(BUILDDIR)/generate
+GENERATOR=$(BUILDDIR)/generate${EXE}
 
 all: sharedlib
 
-sharedlib: $(BUILDDIR)/libxmlm.so
+sharedlib: $(BUILDDIR)/libxmlm${EXTDLL}
 
-$(BUILDDIR)/libxmlm.so: $(LIBFILES)
-	ocamlfind opt -o $@ -linkpkg -output-obj -runtime-variant _pic -verbose -package $(PACKAGES) $^
+$(BUILDDIR)/libxmlm$(EXTDLL): $(LIBFILES)
+	ocamlfind opt -o $@ -linkpkg -output-obj $(RUNTIMEVARIANT) -verbose -package $(PACKAGES) $^
 
 stubs: $(GENERATED)
 
 $(GENERATED): $(GENERATOR)
-	$(BUILDDIR)/generate $(BUILDDIR)/generated
+	$(GENERATOR) $(BUILDDIR)/generated
 
-$(BUILDDIR)/%.o: %.c
-	gcc -c -o $@ -fPIC -I $(shell ocamlfind query ctypes) -I $(OCAMLDIR) -I $(OCAMLDIR)/../ctypes $<
+$(BUILDDIR)/%$(EXTOBJ): %.c
+	$(CC) -c -o $@ -fPIC -I $(shell ocamlfind query ctypes) -I $(OCAMLDIR) -I $(OCAMLDIR)/../ctypes $<
 
 $(BUILDDIR)/%.cmx: %.ml
 	ocamlfind opt -c -o $@ -I $(BUILDDIR)/generated -I $(BUILDDIR)/lib -package $(PACKAGES) $<
@@ -47,6 +61,6 @@ clean:
 
 test: all
 	$(MAKE) -C $@
-	LD_LIBRARY_PATH=$(BUILDDIR) _build/test/test.native test/ocaml.svg
+	$(LD_LIBRARY_PATH)=$(BUILDDIR) _build/test/test${NATIVEXE} test/ocaml.svg
 
 .PHONY: test

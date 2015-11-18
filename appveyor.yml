@@ -22,7 +22,7 @@ init:
 
 install:
     - 'appveyor DownloadFile http://cygwin.com/setup-%CYG_ARCH%.exe -FileName setup.exe'
-    - 'setup.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P wget  -P dos2unix -P diffutils -P cpio -P make -P patch -P mingw64-%MINGW_ARCH%-gcc-core -P mingw64-%MINGW_ARCH%-gcc-g++ >NUL'
+    - 'setup.exe -qnNdO -R "%CYG_ROOT%" -s "%CYG_MIRROR%" -l "%CYG_CACHE%" -P wget  -P dos2unix -P diffutils -P make -P patch -P mingw64-%MINGW_ARCH%-gcc-core -P mingw64-%MINGW_ARCH%-gcc-g++ -P git -P m4 -P rsync -P unzip -P curl >NUL'
     - '%CYG_ROOT%/bin/bash -lc "cygcheck -dc cygwin"'
     - 'appveyor DownloadFile %OPAM_URL% -FileName opam.tar.xz'
 

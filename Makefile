@@ -19,22 +19,38 @@ GENERATED=$(BUILDDIR)/generated/xmlm.h \
           $(BUILDDIR)/generated/xmlm.c \
           $(BUILDDIR)/generated/xmlm_bindings.ml
 
-GENERATOR=$(BUILDDIR)/generate
+OSTYPE:=$(shell ocamlfind ocamlc -config | awk '/^os_type:/ {print $$2}')
+EXTDLL:=$(shell ocamlfind ocamlc -config | awk '/^ext_dll:/ {print $$2}')
+CC:= $(shell ocamlfind ocamlc -config | awk '/^bytecomp_c_compiler/ {for(i=2;i<=NF;i++) printf "%s " ,$$i}')
+
+ifeq ($(OSTYPE),$(filter $(OSTYPE),Win32 Cygwin))
+EXTEXE=.exe
+else
+EXTEXE=
+endif
+
+GENERATOR=$(BUILDDIR)/generate$(EXTEXE)
 
 all: sharedlib
 
-sharedlib: $(BUILDDIR)/libxmlm.so
+sharedlib: $(BUILDDIR)/libxmlm$(EXTDLL)
 
-$(BUILDDIR)/libxmlm.so: $(LIBFILES)
+
+ifeq ($(OSTYPE),$(filter $(OSTYPE),Win32 Cygwin))
+$(BUILDDIR)/libxmlm$(EXTDLL): $(LIBFILES)
+	ocamlfind opt -o $@ -linkpkg -output-obj -verbose -package $(PACKAGES) $^
+else
+$(BUILDDIR)/libxmlm$(EXTDLL): $(LIBFILES)
 	ocamlfind opt -o $@ -linkpkg -output-obj -runtime-variant _pic -verbose -package $(PACKAGES) $^
+endif
 
 stubs: $(GENERATED)
 
 $(GENERATED): $(GENERATOR)
-	$(BUILDDIR)/generate $(BUILDDIR)/generated
+	$(GENERATOR) $(BUILDDIR)/generated
 
 $(BUILDDIR)/%.o: %.c
-	gcc -c -o $@ -fPIC -I $(shell ocamlfind query ctypes) -I $(OCAMLDIR) -I $(OCAMLDIR)/../ctypes $<
+	$(CC) -c -o $@ -fPIC -I $(shell ocamlfind query ctypes) -I $(OCAMLDIR) -I $(OCAMLDIR)/../ctypes $<
 
 $(BUILDDIR)/%.cmx: %.ml
 	ocamlfind opt -c -o $@ -I $(BUILDDIR)/generated -I $(BUILDDIR)/lib -package $(PACKAGES) $<
@@ -47,6 +63,10 @@ clean:
 
 test: all
 	$(MAKE) -C $@
+ifeq ($(OSTYPE),Win32)
+	PATH="$(BUILDDIR):$(PATH)" _build/test/test.native test/ocaml.svg
+else
 	LD_LIBRARY_PATH=$(BUILDDIR) _build/test/test.native test/ocaml.svg
+endif
 
 .PHONY: test

@@ -9,13 +9,13 @@ case "$x" in
         build=x86_64-pc-cygwin
         host=x86_64-w64-mingw32
         MINGW_TOOL_PREFIX=${host}-
-	SWITCH=4.02.3+mingw64
+	SWITCH=4.02.3+mingw64c
         ;;
     *)
         build=i686-pc-cygwin
         host=i686-w64-mingw32
         MINGW_TOOL_PREFIX=${host}-
-	SWITCH=4.02.3+mingw32
+	SWITCH=4.02.3+mingw32c
         ;;
 esac
 
@@ -47,7 +47,9 @@ tar xf opam.tar.xz
 bash opam*/install.sh
 opam init mingw 'https://github.com/fdopen/opam-repository-mingw.git' --comp ${SWITCH} --switch ${SWITCH}
 eval `opam config env`
-opam install depext depext-cygwinports
-opam depext ctypes-foreign
+#opam install depext depext-cygwinports
+opam install depext-cygwinports
+# opam depext ctypes-foreign
+cygwin-install install libffi pkg-config
 opam install --verbose ctypes-foreign ctypes xmlm
 make && make test

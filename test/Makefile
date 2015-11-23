@@ -1,8 +1,9 @@
 BUILDDIR=../_build/test
 $(shell mkdir -p $(BUILDDIR))
 OCAMLDIR=$(shell ocamlopt -where)
-CC=gcc
-LD=gcc
+
+CC:= $(shell ocamlfind ocamlc -config | awk '/^bytecomp_c_compiler/ {for(i=2;i<=NF;i++) printf "%s " ,$$i}')
+LD=$(CC)
 
 all: $(BUILDDIR)/test.native
 

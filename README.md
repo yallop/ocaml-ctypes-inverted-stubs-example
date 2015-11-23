@@ -30,6 +30,10 @@ Typing `make test` causes the following additional steps to take place:
 4. A test program, written in C, will be built by compiling [test.c](test/test.c) and linking it with the shared library.
 5. The test program will be run on the sample XML file [ocaml.svg](test/ocaml.svg)
 
+#### Build status:
+
+AppVeyor: [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/fj1l12iwd4mix51x/branch/master?svg=true)](https://ci.appveyor.com/project/yallop/ocaml-ctypes-inverted-stubs-example/branch/master)  
+
 [xmlm]: http://erratique.ch/software/xmlm
 [ctypes]: https://github.com/ocamllabs/ocaml-ctypes
 [findlib]: http://projects.camlcity.org/projects/findlib.html

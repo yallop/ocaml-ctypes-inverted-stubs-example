@@ -33,6 +33,7 @@ Typing `make test` causes the following additional steps to take place:
 #### Build status:
 
 AppVeyor: [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/fj1l12iwd4mix51x/branch/master?svg=true)](https://ci.appveyor.com/project/yallop/ocaml-ctypes-inverted-stubs-example/branch/master)  
+Travis: [![Travis build Status](https://travis-ci.org/yallop/ocaml-ctypes-inverted-stubs-example.svg?branch=master)](https://travis-ci.org/yallop/ocaml-ctypes-inverted-stubs-example)  
 
 [xmlm]: http://erratique.ch/software/xmlm
 [ctypes]: https://github.com/ocamllabs/ocaml-ctypes

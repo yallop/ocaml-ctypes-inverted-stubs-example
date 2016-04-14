@@ -45,10 +45,6 @@ int main(int argc, char **argv)
   };
   char *filename = argc < 2 ? "/dev/stdin" : argv[1];
 
-  /* Initialize the OCaml runtime before calling the library. */
-  char *caml_argv[1] = { NULL };
-  caml_startup(caml_argv);
-
   /* Call xmlm via the exported C function */
   parse_xml(&h, filename);
   return EXIT_SUCCESS;

@@ -40,13 +40,13 @@ sharedlib: $(BUILDDIR)/libxmlm$(EXTDLL)
 
 
 ifeq ($(OSTYPE),$(filter $(OSTYPE),Win32 Cygwin))
-$(BUILDDIR)/libxmlm$(EXTDLL): $(LIBFILES)
+$(BUILDDIR)/libxmlm$(EXTDLL): $(CAML_INIT) $(LIBFILES)
 	ocamlfind opt -o $@ -linkpkg -output-obj -verbose -package $(PACKAGES) $^
 else ifeq ($(SYSTEM),$(filter $(SYSTEM),macosx))
 $(BUILDDIR)/libxmlm$(EXTDLL): $(CAML_INIT) $(LIBFILES)
 	ocamlfind opt -o $@ -linkpkg -runtime-variant _pic -verbose -ccopt -dynamiclib -package $(PACKAGES) $^
 else
-$(BUILDDIR)/libxmlm$(EXTDLL): $(LIBFILES)
+$(BUILDDIR)/libxmlm$(EXTDLL): $(CAML_INIT) $(LIBFILES)
 	ocamlfind opt -o $@ -linkpkg -output-obj -runtime-variant _pic -verbose -package $(PACKAGES) $^
 endif
 

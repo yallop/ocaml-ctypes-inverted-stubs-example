@@ -51,5 +51,5 @@ eval `opam config env`
 opam install depext-cygwinports
 # opam depext ctypes-foreign
 cygwin-install install libffi pkg-config
-opam install --verbose ctypes-foreign ctypes xmlm
-make && make test
+opam pin add -n --yes ctypes-inverted-stubs-example .
+opam install --build-test --yes --verbose ctypes-inverted-stubs-example

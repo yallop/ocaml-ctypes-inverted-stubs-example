@@ -1,0 +1,24 @@
+opam-version: "1.2"
+name: "ctypes-inverted-stubs-example"
+version: "dev"
+maintainer: "yallop@gmail.com"
+author: "yallop@gmail.com"
+homepage: "https://github.com/yallop/ocaml-ctypes-inverted-stubs-example"
+dev-repo: "https://github.com/yallop/ocaml-ctypes-inverted-stubs-example.git"
+bug-reports: "https://github.com/yallop/ocaml-ctypes-inverted-stubs-example/issues"
+license: "Public domain"
+build: [
+  [make]
+]
+build-test: [
+  [make "test"]
+]
+depends: [
+   "xmlm"
+   "ctypes" {>= "0.4.0"}
+   "ctypes-foreign"
+]
+conflicts: [
+   "ctypes" {= "0.6.0"}
+]
+available: [ ocaml-version >= "4.02.0" ]

@@ -3,8 +3,7 @@ sh .travis-ocaml.sh
 
 eval `opam config env`
 
+opam pin add --yes -n $(pwd)
 opam install --yes depext
-opam depext ctypes-foreign
-opam install --yes ctypes-foreign ctypes xmlm
-make
-make test
+opam depext ctypes-inverted-stubs-example
+opam install --build-test --yes --verbose ctypes-inverted-stubs-example

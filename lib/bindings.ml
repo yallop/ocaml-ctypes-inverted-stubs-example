@@ -1,3 +1,10 @@
+(*
+ * Copyright (c) 2014-2015 Jeremy Yallop.
+ *
+ * This file is distributed under the terms of the MIT License.
+ * See the file LICENSE for details.
+ *)
+
 open Ctypes
 open Foreign
 

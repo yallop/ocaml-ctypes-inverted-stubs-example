@@ -3,6 +3,5 @@ sh .travis-ocaml.sh
 
 eval `opam config env`
 
-opam install --yes ctypes-foreign ctypes xmlm
-make
-make test
+opam install --yes ctypes-foreign ctypes xmlm dune
+dune runtest

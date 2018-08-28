@@ -1,0 +1,15 @@
+(executable
+  (name libxmlm)
+  (modes shared_object)
+  (libraries bindings mlxmlm ctypes.foreign)
+)
+
+(alias
+  (name install)
+  (deps libxmlm%{ext_dll})
+)
+
+(rule
+  (targets libxmlm.ml)
+  (action (write-file %{targets} ""))
+)

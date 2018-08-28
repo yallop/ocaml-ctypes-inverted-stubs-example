@@ -1,0 +1,4 @@
+(executable
+  (name generate)
+  (libraries ctypes.foreign ctypes.stubs bindings)
+)

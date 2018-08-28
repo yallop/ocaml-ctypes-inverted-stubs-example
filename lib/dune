@@ -1,0 +1,13 @@
+(rule
+  (targets xmlm_bindings.ml xmlm.c xmlm.h)
+  (deps (:generate ../stub_generator/generate.exe))
+  (action (run %{generate} "."))
+)
+
+(library
+  (name mlxmlm)
+  (libraries ctypes.stubs bindings)
+  (flags (:standard -w "-27"))
+  (library_flags (:standard -linkall))
+  (c_names xmlm)
+)

@@ -1,0 +1,23 @@
+(rule
+  (copy ../lib/xmlm.h xmlm.h))
+
+(rule
+  (targets test.o)
+  (deps (:x test.c) xmlm.h)
+  (action (run %{ocamlc} -c %{x})))
+
+(rule
+  (targets test.exe)
+  (deps test%{ext_obj} ../dll/libxmlm%{ext_dll})
+  (action (run %{cc} -o %{targets} -Wl,-rpath,../dll  -I ../lib -L ../dll -lxmlm test%{ext_obj})))
+
+(alias
+  (name runtest)
+  (deps ocaml.svg)
+  (action (run ./test.exe ocaml.svg))
+)
+
+(alias
+  (name install)
+  (deps test.exe)
+)

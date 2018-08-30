@@ -4,6 +4,6 @@ __attribute__ ((__constructor__))
 void
 init(void)
 {
-  char *caml_argv[1] = { NULL };
+  char_os *caml_argv[1] = { NULL };
   caml_startup(caml_argv);
 }

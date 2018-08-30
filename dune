@@ -1,4 +1,3 @@
-
 (rule
   (targets xmlm.c xmlm.h xmlm_bindings.ml)
   (deps stub_generator/generate.exe)
@@ -20,7 +19,9 @@
 
 (rule
   (targets libxmlm.ml)
-  (action (write-file %{targets} "")))
+  (action (write-file
+             %{targets}
+             "external init: unit -> unit = \"init\"")))
 
 (executable
   (name libxmlm)

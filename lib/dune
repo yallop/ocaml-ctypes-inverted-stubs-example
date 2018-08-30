@@ -1,0 +1,4 @@
+(library
+  (name bindings)
+  (libraries ctypes ctypes.foreign xmlm)
+  (modules (:standard \ apply_bindings)))

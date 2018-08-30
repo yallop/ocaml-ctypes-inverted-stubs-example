@@ -1,0 +1,29 @@
+
+(rule
+  (targets xmlm.c xmlm.h xmlm_bindings.ml)
+  (deps stub_generator/generate.exe)
+  (action (run %{deps} .)))
+
+(rule
+  (copy stub/init.c init.c))
+
+(rule
+  (copy lib/apply_bindings.ml apply_bindings.ml))
+
+(library
+  (name mxmlm)
+  (modules xmlm_bindings apply_bindings)
+  (libraries ctypes.stubs bindings)
+  (c_names xmlm init)
+  (flags (:standard -w "-27"))
+  (library_flags (:standard -linkall)))
+
+(rule
+  (targets libxmlm.ml)
+  (action (write-file %{targets} "")))
+
+(executable
+  (name libxmlm)
+  (modes shared_object)
+  (libraries mxmlm)
+  (modules libxmlm))

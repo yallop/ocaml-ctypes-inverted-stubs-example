@@ -1,0 +1,16 @@
+(rule (copy ../xmlm.h xmlm.h))
+
+(rule
+  (targets test.o)
+  (deps (:x test.c) xmlm.h)
+  (action (run %{ocamlc} -c %{x})))
+
+(rule
+  (targets test.exe)
+  (deps test%{ext_obj} ../libxmlm%{ext_dll})
+  (action (run %{cc} -O2 -fno-strict-aliasing -fwrapv -fPIC -D_FILE_OFFSET_BITS=64 -D_REENTRANT -o %{targets} -Wl,-rpath,.. -L .. -lxmlm test%{ext_obj})))
+
+(alias
+  (name runtest)
+  (deps ocaml.svg)
+  (action (run ./test.exe ocaml.svg)))

@@ -28,3 +28,8 @@
   (modes shared_object)
   (libraries mxmlm)
   (modules libxmlm))
+
+(alias
+ (name install)
+ (deps libxmlm%{ext_dll})
+ )

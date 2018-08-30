@@ -3,12 +3,12 @@
 (rule
   (targets test.o)
   (deps (:x test.c) xmlm.h)
-  (action (run %{ocamlc} -c %{x})))
+  (action (run %{ocamlc} -c %{x} -o test.o)))
 
 (rule
   (targets test.exe)
-  (deps test%{ext_obj} ../libxmlm%{ext_dll})
-  (action (run %{cc} -O2 -fno-strict-aliasing -fwrapv -fPIC -D_FILE_OFFSET_BITS=64 -D_REENTRANT -o %{targets} -Wl,-rpath,.. -L .. -lxmlm test%{ext_obj})))
+  (deps test.o ../libxmlm%{ext_dll})
+  (action (run %{cc} -o test.exe -Wl,-rpath,.. -L .. -lxmlm test.o)))
 
 (alias
   (name runtest)

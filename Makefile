@@ -41,13 +41,13 @@ sharedlib: $(BUILDDIR)/libxmlm$(EXTDLL)
 
 ifeq ($(OSTYPE),$(filter $(OSTYPE),Win32 Cygwin))
 $(BUILDDIR)/libxmlm$(EXTDLL): $(CAML_INIT) $(LIBFILES)
-	ocamlfind opt -o $@ -linkpkg -output-obj -verbose -package $(PACKAGES) $^
+	ocamlfind opt -o $@ -thread -linkpkg -output-obj -verbose -package $(PACKAGES) $^
 else ifeq ($(SYSTEM),$(filter $(SYSTEM),macosx))
 $(BUILDDIR)/libxmlm$(EXTDLL): $(CAML_INIT) $(LIBFILES)
-	ocamlfind opt -o $@ -linkpkg -runtime-variant _pic -verbose -ccopt -dynamiclib -package $(PACKAGES) $^
+	ocamlfind opt -o $@ -thread -linkpkg -runtime-variant _pic -verbose -ccopt -dynamiclib -package $(PACKAGES) $^
 else
 $(BUILDDIR)/libxmlm$(EXTDLL): $(CAML_INIT) $(LIBFILES)
-	ocamlfind opt -o $@ -linkpkg -output-obj -runtime-variant _pic -verbose -package $(PACKAGES) $^
+	ocamlfind opt -o $@ -thread -linkpkg -output-obj -runtime-variant _pic -verbose -package $(PACKAGES) $^
 endif
 
 stubs: $(GENERATED)
@@ -66,7 +66,7 @@ $(BUILDDIR)/%.cmx: %.ml
 	ocamlfind opt -c -o $@ -I $(BUILDDIR)/generated -I $(BUILDDIR)/lib -package $(PACKAGES) $<
 
 $(GENERATOR): $(GENERATOR_FILES)
-	ocamlfind opt -o $@ -linkpkg -package $(PACKAGES) $^
+	ocamlfind opt -o $@ -thread -linkpkg -package $(PACKAGES) $^
 
 clean:
 	rm -rf $(BUILDDIR)
